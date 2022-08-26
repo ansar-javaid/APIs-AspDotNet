@@ -2,6 +2,8 @@
 using FileUploadPractice.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
+using System.Collections.Specialized;
 
 namespace FileUploadPractice.Controllers
 {
@@ -18,6 +20,8 @@ namespace FileUploadPractice.Controllers
             _environment = environment;
         }
 
+
+        //================================================================================================
         [HttpPost]
         public async Task<ActionResult> Upload(IFormFile file)
         {
@@ -25,13 +29,15 @@ namespace FileUploadPractice.Controllers
             var rootPath = Path.Combine(_environment.ContentRootPath, "Resourses", "Document");
             if(!Directory.Exists(rootPath))
                 Directory.CreateDirectory(rootPath);
+            string[] split = file.ContentType.Split('/');
+            var uniqueFileName = Guid.NewGuid().ToString() + '.' + split[1];
 
-            var filePath=Path.Combine(rootPath, file.FileName);
+            var filePath = Path.Combine(rootPath, uniqueFileName);
             using(var stream=new FileStream(filePath, FileMode.Create))
             {
                 var document = new Document
                 {
-                    FileName = file.FileName,
+                    FileName = uniqueFileName,
                     ContentType = file.ContentType,
                     Size = file.Length
                 };
@@ -41,6 +47,31 @@ namespace FileUploadPractice.Controllers
             }
 
             return Ok(file.Length);
+        }//Upload Ended-------------------------------------------------------------------------------
+
+        [HttpGet]
+        public async Task<ActionResult> Download(int fileID)
+        {
+            var provider=new FileExtensionContentTypeProvider();
+            var document = await _context.Document.FindAsync(fileID);
+            if(document == null)
+                return NotFound();
+            var file = Path.Combine(_environment.ContentRootPath, "Resourses", "Document", document.FileName);
+
+            string contentType;
+            if(!provider.TryGetContentType(file,out contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+
+            byte[] fileBytes;
+            if(System.IO.File.Exists(file))
+            {
+                fileBytes = System.IO.File.ReadAllBytes(file);
+            }
+            else
+                return NotFound();
+            return File(fileBytes,contentType,document.FileName);
         }
     }
 }
