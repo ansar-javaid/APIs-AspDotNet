@@ -5,7 +5,9 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfileAPI", "ProfileAPI\ProfileAPI.csproj", "{BDD6A909-0DBD-4325-A066-34AFC839F3C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryPattrenPractice", "RepositoryPattrenPractice\RepositoryPattrenPractice.csproj", "{22E00A21-3766-4C50-87B8-149559AE92CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepositoryPattrenPractice", "RepositoryPattrenPractice\RepositoryPattrenPractice.csproj", "{22E00A21-3766-4C50-87B8-149559AE92CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploadPractice", "FileUploadPractice\FileUploadPractice.csproj", "{C9FA35DB-473F-41CD-B1BA-1F2A1CC3F26C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{22E00A21-3766-4C50-87B8-149559AE92CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22E00A21-3766-4C50-87B8-149559AE92CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22E00A21-3766-4C50-87B8-149559AE92CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9FA35DB-473F-41CD-B1BA-1F2A1CC3F26C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9FA35DB-473F-41CD-B1BA-1F2A1CC3F26C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9FA35DB-473F-41CD-B1BA-1F2A1CC3F26C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9FA35DB-473F-41CD-B1BA-1F2A1CC3F26C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

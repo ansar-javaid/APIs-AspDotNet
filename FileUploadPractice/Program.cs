@@ -1,10 +1,5 @@
-using Microsoft.AspNetCore.Builder;
+using FileUploadPractice.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using RepositoryPattrenPractice.Data;
-using RepositoryPattrenPractice.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-
-builder.Services.AddScoped<Interface, ActionMethods>();
 //DB Context Service -------------------------------------------------------------------------------
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -21,10 +14,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 
 
 //Add-Migration <Migration Name> -p <Project Name>
-//Add-Migration step1 -p RepositoryPattrenPractice
+//Add-Migration step1 -p FileUploadPractice
 
 //Update-Database -p <Project Name>
-//Update-Database -p RepositoryPattrenPractice
+//Update-Database -p FileUploadPractice
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

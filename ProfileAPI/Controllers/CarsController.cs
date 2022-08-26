@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProfileAPI.Data;
@@ -22,6 +24,7 @@ namespace ProfileAPI.Controllers
 
         [HttpGet]
         public async Task<ActionResult<List<Car>>> GetAllCars()
+        
         {  
             return Ok(await _context.Car.ToListAsync());
         }

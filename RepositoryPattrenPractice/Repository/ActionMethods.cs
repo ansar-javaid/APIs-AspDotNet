@@ -1,4 +1,7 @@
-﻿using RepositoryPattrenPractice.Data;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using RepositoryPattrenPractice.Data;
 using RepositoryPattrenPractice.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
