@@ -22,6 +22,11 @@ namespace FileUploadPractice.Controllers
 
 
         //================================================================================================
+        /// <summary>
+        /// A file upload api, that accepts a file and save that file in storage and save its details in Database
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Upload(IFormFile file)
         {
@@ -49,6 +54,16 @@ namespace FileUploadPractice.Controllers
             return Ok(file.Length);
         }//Upload Ended-------------------------------------------------------------------------------
 
+
+
+
+
+        //============================================================================================
+        /// <summary>
+        /// Get the uploaded file from the stograge and download/return it to the user
+        /// </summary>
+        /// <param name="fileID"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> Download(int fileID)
         {
@@ -72,6 +87,82 @@ namespace FileUploadPractice.Controllers
             else
                 return NotFound();
             return File(fileBytes,contentType,document.FileName);
-        }
+        }//Get or Download Ended---------------------------------------------------------------------------
+
+
+
+
+        //=================================================================================================
+        /// <summary>
+        /// Delete the Existing file from storage and its details from database
+        /// </summary>
+        /// <param name="fileID"></param>
+        /// <returns></returns>
+        [HttpDelete("{fileID}")]
+        public async Task<ActionResult> Delete(int fileID)
+        {
+            var document = await _context.Document.FindAsync(fileID);
+            if (document == null)
+                return NotFound();
+            var file = Path.Combine(_environment.ContentRootPath, "Resourses", "Document", document.FileName);
+
+            if (System.IO.File.Exists(file))
+            {
+                System.IO.File.Delete(file);
+                _context.Document.Remove(document);
+                await _context.SaveChangesAsync();
+                return Ok("File deleted successfuly!");
+            }
+            return NotFound("Record not found!");
+        }//Delete Endend--------------------------------------------------------------------------------------
+
+
+
+        //====================================================================================================
+        /// <summary>
+        /// Replace the existing file with thw=e newly uploaded file, by deleteing the privious one
+        /// </summary>
+        /// <param name="fileID"></param>
+        /// <param name="newfile"></param>
+        /// <returns></returns>
+        [HttpPatch]
+        public async Task<ActionResult> Update(int fileID,IFormFile newfile)
+        {
+            //Findind Record in DB
+            var document = await _context.Document.FindAsync(fileID);
+            if (document == null)
+                return NotFound();
+            //Finding File in Storage
+            var file = Path.Combine(_environment.ContentRootPath, "Resourses", "Document", document.FileName);
+
+            if (System.IO.File.Exists(file))
+            {
+                //Deleteing the Founded file and keepthe name save
+                System.IO.File.Delete(file);
+                long size = newfile.Length;
+                //Finding path and creating the Directory if not exisist
+                var rootPath = Path.Combine(_environment.ContentRootPath, "Resourses", "Document");
+                if (!Directory.Exists(rootPath))
+                    Directory.CreateDirectory(rootPath);
+                string[] split = newfile.ContentType.Split('/');
+                string[] split1=document.FileName.Split('.');
+                var FileName = split1[0] + '.' + split[1];
+
+                //Creating new file and assigning the previous file name to the new file
+                var filePath = Path.Combine(rootPath, FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {    
+                    //update the new file details in the existing database record
+                    document.FileName=FileName;
+                    document.ContentType=newfile.ContentType;
+                    document.Size= size;
+                    await newfile.CopyToAsync(stream);
+                    await _context.SaveChangesAsync();
+                }
+                return Ok("File Replaced successfuly!");
+            }
+            return NotFound("Record not found!");
+        }//Repace file or Update Ended--------------------------------------------------------------------
+
     }
 }

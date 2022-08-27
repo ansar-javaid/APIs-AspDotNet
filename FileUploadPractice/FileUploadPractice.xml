@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FileUploadPractice</name>
+    </assembly>
+    <members>
+        <member name="M:FileUploadPractice.Controllers.DocumentController.Upload(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            A file upload api, that accepts a file and save that file in storage and save its details in Database
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FileUploadPractice.Controllers.DocumentController.Download(System.Int32)">
+            <summary>
+            Get the uploaded file from the stograge and download/return it to the user
+            </summary>
+            <param name="fileID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FileUploadPractice.Controllers.DocumentController.Delete(System.Int32)">
+            <summary>
+            Delete the Existing file from storage and its details from database
+            </summary>
+            <param name="fileID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FileUploadPractice.Controllers.DocumentController.Update(System.Int32,Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Replace the existing file with thw=e newly uploaded file, by deleteing the privious one
+            </summary>
+            <param name="fileID"></param>
+            <param name="newfile"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
